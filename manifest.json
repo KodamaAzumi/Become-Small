@@ -1,0 +1,13 @@
+{
+    "name" : "Become Big",
+    "description" : "押したコンテンツが大きくなる拡張です",
+    "version" : "1.0.0",
+    "manifest_version" : 3,
+    "permissions": ["activeTab", "scripting"],
+    "action": {
+		"default_popup": "small.html" 
+    },
+    "background": {
+		"service_worker": "small.js"
+	}
+}
