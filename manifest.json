@@ -1,13 +1,29 @@
 {
-    "name" : "Become Big",
-    "description" : "押したコンテンツが大きくなる拡張です",
+    "name" : "Become Small",
+    "description" : "押した要素が小さくなる拡張です",
     "version" : "1.0.0",
     "manifest_version" : 3,
-    "permissions": ["activeTab", "scripting"],
     "action": {
-		"default_popup": "small.html" 
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "/images/get_started16.png",
+        "32": "/images/get_started32.png",
+        "48": "/images/get_started48.png",
+        "128": "/images/get_started128.png"
+      }
     },
-    "background": {
-		"service_worker": "small.js"
-	}
+    "content_scripts": [
+      {
+          "matches": [ "http://*/*", "https://*/*" ],
+          "js": [ "small.js" ]
+      }
+  ],
+  "icons": {
+    "16": "/images/get_started16.png",
+    "32": "/images/get_started32.png",
+    "48": "/images/get_started48.png",
+    "128": "/images/get_started128.png"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["http://*/*", "https://*/*"]
 }
