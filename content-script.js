@@ -19,6 +19,10 @@ ancherElementList.forEach((ancherElement) => {
 
     //clickしたサイトのURLを取得
     const url =currentTarget.href;
+    console.log(url);
+
+    currentTarget.style.transform = 'scale(0.5)';
+    currentTarget.style.display = 'inline-block';
     
     //ランダムな三桁の文字列を生成
     let l = 3;
@@ -33,30 +37,44 @@ ancherElementList.forEach((ancherElement) => {
     const idk = 'k' + r;
     console.log(idk);
 
-    //もしdata.idkが無かったらcurrentTargetにidを追加＆data.idkを作成
-    if(typeof data.idk === 'undefined'){
+    //もしdata[idk]が無かったらcurrentTargetにidを追加＆data[idk]を作成
+    if(typeof data[idk] === 'undefined'){
       currentTarget.setAttribute('id', idk);
-      data.idk = idk;
+      data[idk] = {};
     } 
 
-    //もしdata.idの中にurlが無かったらクリックしたサイトのurlを追加
-    if(data.idk.hasOwnProperty('url')){
+    console.log(data[idk]);
+
+    //もしdata[idk]の中にurlが無かったらクリックしたサイトのurlを追加
+    if(data[idk].hasOwnProperty('url')){
     } else {
-      data.idk.url = url;
-      console.log(url);
+      data[idk].url = url;
     }
 
-    currentTarget.style.transform = 'scale(0.5)';
-    currentTarget.style.display = 'inline-block';
+    //もしdata[idk]の中にclickDataが無かったらclickDataを追加
+    if(data[idk].hasOwnProperty('clickData')){
+    } else {
+      data[idk].clickData = {};
+    }
 
     //cから始まるidを作成
     const idc = 'c' + r;
     console.log(idc);
 
-    if (data.hasOwnProperty('count')) {
-      data.count += 1;
+    // ページ遷移の処理を中断
+    e.preventDefault();
+
+     console.log(data[idk].clickData);
+
+    if(typeof data[idk].clickData[idc] === 'undefined'){
+      currentTarget.setAttribute('class', idc);
+      data[idk].clickData[idc] = {};
+    }
+
+    if (data[idk].clickData[idc].hasOwnProperty('count')) {
+      data[idk].clickData[idc].count += 1;
     } else {
-      data.count = 0;
+      data[idk].clickData[idc].count = 0;
     }
 
     console.log(data);
