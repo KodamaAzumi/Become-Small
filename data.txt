@@ -1,0 +1,67 @@
+必要なデータ
+《サイトに関する情報》
+  ・クリックしたサイトのページに紐付いたユニークなID
+  ・クリックされたサイトURL
+  《クリックに関する情報》
+    ・クリックの情報に紐付いたユニークなID
+    ・クリックされた回数
+    ・クリックされた場所
+    ・クリックされた場所を取得するのに必要な情報
+
+const data = {
+  クリックしたサイトのページに紐付いたユニークなID: {
+    url: クリックされたサイトURLの文字列,
+    clickData: {
+      クリックの情報に紐付いたユニークなID: {
+        count: クリックされた回数,
+        location: クリックされた場所,
+        query: クリックされた場所を取得するのに必要な情報
+      },
+      ...（繰り返し）
+    }
+  }
+  ...（繰り返し）
+};
+
+const data = {
+  k001: {
+    url: "https://hoge.com",
+    clickData: {
+      c001: {
+        count: 0,
+        location: "a#hoge0",
+        query: "a#hoge0"
+      },
+      c002: {
+        count: 4,
+        location: "a#hoge1",
+        query: "a#hoge1"
+      },
+      ...（繰り返し）
+    }
+  },
+  k002: {
+    url: "https://fuga.com",
+    clickData: {
+      c001: {
+        count: 0,
+        location: "a#fuga0",
+        query: "a#fuga0"
+      },
+      c002: {
+        count: 4,
+        location: "a#fuga1",
+        query: "a#fuga1"
+      },
+      ...（繰り返し）
+    }
+  }
+  ...（繰り返し）
+};
+
+chrome.storage.local.get("k001", function(result) {
+  const clicked = document.querySelector(clickData.c001.query);
+  
+  clicked.style.transform = 'scale(0.5)';
+  clicked.style.display = 'inline-block';
+})

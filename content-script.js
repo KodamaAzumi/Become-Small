@@ -1,47 +1,69 @@
+chrome.storage.local.clear();
+
+let data = {};
 const ancherElementList = document.querySelectorAll('a');
+
+//nullはすべて取得する
+chrome.storage.local.get(null, function(result) {
+  data = result;
+  
+  console.log(data);
+});
 
 ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
     
     const { currentTarget } = e;
-
     console.log(currentTarget.outerHTML);
     console.log(currentTarget);
+
+    //clickしたサイトのURLを取得
+    const url =currentTarget.href;
+    
+    //ランダムな三桁の文字列を生成
+    let l = 3;
+    let c = '0123456789';
+    let cl = c.length;
+    let r = '';
+    for(let i = 0; i < l; i++){
+      r += c[Math.floor(Math.random()*cl)];
+    };
+
+    //kから始まるidを作成
+    const idk = 'k' + r;
+    console.log(idk);
+
+    //もしdata.idkが無かったらcurrentTargetにidを追加＆data.idkを作成
+    if(typeof data.idk === 'undefined'){
+      currentTarget.setAttribute('id', idk);
+      data.idk = idk;
+    } 
+
+    //もしdata.idの中にurlが無かったらクリックしたサイトのurlを追加
+    if(data.idk.hasOwnProperty('url')){
+    } else {
+      data.idk.url = url;
+      console.log(url);
+    }
 
     currentTarget.style.transform = 'scale(0.5)';
     currentTarget.style.display = 'inline-block';
 
-    if(let num)
-    let num = {key1 : 1};
-    chrome.storage.local.set(num, function() {
-      console.log('Value is set to ' + num.key1);
-    });
-       
-    /*
-    // 押した回数を保存
-    if(num.key1 < 1){
-      num.key1 = num.key1 + 1;
+    //cから始まるidを作成
+    const idc = 'c' + r;
+    console.log(idc);
+
+    if (data.hasOwnProperty('count')) {
+      data.count += 1;
+    } else {
+      data.count = 0;
     }
-    chrome.storage.local.set(num, function() {
-      console.log('Value is set to ' + num.key1);
+
+    console.log(data);
+
+    chrome.storage.local.set(data, function () {
+      console.log('Value is set to ' + data);
     });
-
-     //一回以上押している場合に回数を追加
-     if(num.key1 > 0){
-      chrome.storage.local.get(num, function(result) {
-        num.key1 = result.key1 + 1;
-        console.log(result);
-        console.log('Value currently is ' + num.key1);
-        });
-    }
-    */
-
-    // 押した回数に変更があったときにさらに小さくする
-    /*
-    chrome.storage.onChanged.addListener(changes => {
-
-    });
-    */
 
     // ページ遷移の処理を中断
     e.preventDefault();
