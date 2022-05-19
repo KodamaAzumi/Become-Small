@@ -4,14 +4,17 @@ let data = {};
 const ancherElementList = document.querySelectorAll('a');
 
 //nullはすべて取得する
-chrome.storage.local.get(null, function(result) {
+chrome.storage.local.get('k556', function(result) {
   data = result;
   
-  console.log(data);
+  console.log(result);
 });
 
 ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
+
+      // ページ遷移の処理を中断
+      e.preventDefault();
     
     const { currentTarget } = e;
     console.log(currentTarget.outerHTML);
@@ -23,6 +26,11 @@ ancherElementList.forEach((ancherElement) => {
 
     currentTarget.style.transform = 'scale(0.5)';
     currentTarget.style.display = 'inline-block';
+
+     // ページ遷移の処理を中断
+     e.preventDefault();
+
+     
     
     //ランダムな三桁の文字列を生成
     function create_privateid(n){
@@ -36,11 +44,12 @@ ancherElementList.forEach((ancherElement) => {
       return r;
     }
 
+    const idk = 'k' + create_privateid(3);
+    console.log(idk);
+
     //もしdata[idk]が無かったらcurrentTargetにidを追加＆data[idk]を作成
     if(typeof data[idk] === 'undefined'){
       //kから始まるidを作成
-      const idk = 'k' + create_privateid(3);
-      console.log(idk);
 
       currentTarget.setAttribute('id', idk);
       data[idk] = {};
@@ -49,6 +58,7 @@ ancherElementList.forEach((ancherElement) => {
     console.log(data[idk]);
 
     /*
+    
 
     //もしdata[idk]の中にurlが無かったらクリックしたサイトのurlを追加
     if(data[idk].hasOwnProperty('url')){
@@ -84,14 +94,11 @@ ancherElementList.forEach((ancherElement) => {
 
     console.log(data);
 
-    chrome.storage.local.set(data, function () {
-      console.log('Value is set to ' + data);
-    });
-
     */
 
-    // ページ遷移の処理を中断
-    e.preventDefault();
+    chrome.storage.local.set(data, function () {
+      console.log('Value is set to ' , data);
+    });
 
     // ページ遷移の処理
     //window.location.href = currentTarget;
