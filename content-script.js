@@ -25,25 +25,30 @@ ancherElementList.forEach((ancherElement) => {
     currentTarget.style.display = 'inline-block';
     
     //ランダムな三桁の文字列を生成
-    let l = 3;
-    let c = '0123456789';
-    let cl = c.length;
-    let r = '';
-    for(let i = 0; i < l; i++){
-      r += c[Math.floor(Math.random()*cl)];
-    };
-
-    //kから始まるidを作成
-    const idk = 'k' + r;
-    console.log(idk);
+    function create_privateid(n){
+      let l = n;
+      let c = '0123456789';
+      let cl = c.length;
+      let r = '';
+      for(let i = 0; i < l; i++){
+        r += c[Math.floor(Math.random()*cl)];
+      };
+      return r;
+    }
 
     //もしdata[idk]が無かったらcurrentTargetにidを追加＆data[idk]を作成
     if(typeof data[idk] === 'undefined'){
+      //kから始まるidを作成
+      const idk = 'k' + create_privateid(3);
+      console.log(idk);
+
       currentTarget.setAttribute('id', idk);
       data[idk] = {};
     } 
 
     console.log(data[idk]);
+
+    /*
 
     //もしdata[idk]の中にurlが無かったらクリックしたサイトのurlを追加
     if(data[idk].hasOwnProperty('url')){
@@ -82,6 +87,8 @@ ancherElementList.forEach((ancherElement) => {
     chrome.storage.local.set(data, function () {
       console.log('Value is set to ' + data);
     });
+
+    */
 
     // ページ遷移の処理を中断
     e.preventDefault();
