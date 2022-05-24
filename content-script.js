@@ -1,15 +1,23 @@
-chrome.storage.local.clear();
+//chrome.storage.local.clear();
 
 let data = {};
 const ancherElementList = document.querySelectorAll('a');
 
 //nullはすべて取得する
-chrome.storage.local.get('k556', function(result) {
+chrome.storage.local.get(null, function(result) {
   data = result;
-  
   console.log(result);
+
+  for (const key in data){
+    console.log(key);
+    const q = document.querySelector('a[href="' +  key + '" ]')
+    console.log(q);
+    q.style.transform = 'scale(' + Math.max(0 ,1/((data[key].count)*0.2+1)) + ')';
+    q.style.display = 'inline-block';
+  }
 });
 
+document.addEventListener("DOMContentLoaded", function() {
 ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
 
@@ -24,47 +32,18 @@ ancherElementList.forEach((ancherElement) => {
     const url =currentTarget.href;
     console.log(url);
 
-    currentTarget.style.transform = 'scale(0.5)';
-    currentTarget.style.display = 'inline-block';
-
      // ページ遷移の処理を中断
      e.preventDefault();
 
-     
-    
-    //ランダムな三桁の文字列を生成
-    function create_privateid(n){
-      let l = n;
-      let c = '0123456789';
-      let cl = c.length;
-      let r = '';
-      for(let i = 0; i < l; i++){
-        r += c[Math.floor(Math.random()*cl)];
-      };
-      return r;
+    //もしdataの中にurlが無かったらクリックしたサイトのurlを追加
+    if(data.hasOwnProperty(url)){
+      data[url].count += 1;
+    } else {
+      data[url] = {};
+      data[url].count = 1;
     }
-
-    const idk = 'k' + create_privateid(3);
-    console.log(idk);
-
-    //もしdata[idk]が無かったらcurrentTargetにidを追加＆data[idk]を作成
-    if(typeof data[idk] === 'undefined'){
-      //kから始まるidを作成
-
-      currentTarget.setAttribute('id', idk);
-      data[idk] = {};
-    } 
-
-    console.log(data[idk]);
 
     /*
-    
-
-    //もしdata[idk]の中にurlが無かったらクリックしたサイトのurlを追加
-    if(data[idk].hasOwnProperty('url')){
-    } else {
-      data[idk].url = url;
-    }
 
     //もしdata[idk]の中にclickDataが無かったらclickDataを追加
     if(data[idk].hasOwnProperty('clickData')){
@@ -92,16 +71,17 @@ ancherElementList.forEach((ancherElement) => {
       data[idk].clickData[idc].count = 0;
     }
 
-    console.log(data);
-
     */
+
+    console.log(data);
 
     chrome.storage.local.set(data, function () {
       console.log('Value is set to ' , data);
     });
 
     // ページ遷移の処理
-    //window.location.href = currentTarget;
+    window.location.href = currentTarget;
     
   });
+});
 });
