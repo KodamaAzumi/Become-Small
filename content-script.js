@@ -12,17 +12,15 @@ chrome.storage.local.get(null, function(result) {
     console.log(key);
     const q = document.querySelector('a[href="' +  key + '" ]')
     console.log(q);
-    q.style.transform = 'scale(' + Math.max(0 ,1/((data[key].count)*0.2+1)) + ')';
-    q.style.display = 'inline-block';
+    if(q) {
+      q.style.transform = 'scale(' + Math.max(0 ,1/((data[key].count)*0.2+1)) + ')';
+      q.style.display = 'inline-block';
+    }
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
 ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
-
-      // ページ遷移の処理を中断
-      e.preventDefault();
     
     const { currentTarget } = e;
     console.log(currentTarget.outerHTML);
@@ -77,11 +75,12 @@ ancherElementList.forEach((ancherElement) => {
 
     chrome.storage.local.set(data, function () {
       console.log('Value is set to ' , data);
+      // ページ遷移の処理を中断
+      e.preventDefault();
     });
 
     // ページ遷移の処理
     window.location.href = currentTarget;
     
   });
-});
 });
