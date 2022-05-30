@@ -7,13 +7,16 @@
      "run_at": "document_idle"
    }
  ],
-  "name": "Hello, World!",
-  "version": "1.0",
+  "name": "押したものを小さくする拡張機能",
+  "description" : "押したボタンやロゴなどが押すたびに小さくなります。ページ読み込みを待ってから出ないと、エラーになりやすいので気を付けてください。小さくならない場合リロードしてください。",
+  "version": "1.2",
   "manifest_version": 3,
   "background": {
     "service_worker": "background.js"
   },
-  "action": {},
+  "action": {
+    "default_popup": "popup.html"
+  },
   "permissions":[
     "storage"
   ]
