@@ -8,14 +8,14 @@ chrome.storage.local.get(null, function(result) {
   data = result;
   console.log(result);
 
-  for (const key in data[host]){
-    if(data[host].hasOwnProperty(key)){
+  
+  for (const key in data){
+    if(data.hasOwnProperty(key)){
       console.log(key);
       const q = document.querySelector('a[href="' +  key + '" ]')
       console.log(q);
-      if(q) {
-        let size = Math.max(0 ,1/((data[host][key].count)*0.2+1));
-        q.style.transform = 'scale(' + size + ')';
+      if(q) {;
+        q.style.transform = 'scale(' + Math.max(0 ,1/((data[key].count)*0.2+1)) + ')';
         q.style.display = 'inline-block';
         if(data[key].count > 7) {
           q.style.visibility = 'hidden';
@@ -36,29 +36,14 @@ ancherElementList.forEach((ancherElement) => {
     const url =currentTarget.href;
     console.log(url);
 
+    /*
     let host = location.host;
     console.log('host');
+    */
 
      // ページ遷移の処理を中断
      e.preventDefault();
-
-    if(data.hasOwnProperty(host)){
-      if(data[host].hasOwnProperty(url)){
-        data[host][url].count += 1;
-      } else {
-        data[host][url] = {
-          count: 1
-        };
-      }
-    } else {
-      data[host] = {
-        [url]: {
-          count: 1
-        }
-      };
-    }
   
-    /*
     //もしdataの中にurlが無かったらクリックしたサイトのurlを追加
     if(data.hasOwnProperty(url)){
       data[url].count += 1;
@@ -66,7 +51,6 @@ ancherElementList.forEach((ancherElement) => {
       data[url] = {};
       data[url].count = 1;
     }
-    */
 
     console.log(data);
 
