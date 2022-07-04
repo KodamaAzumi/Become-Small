@@ -36,11 +36,6 @@ ancherElementList.forEach((ancherElement) => {
     const url =currentTarget.href;
     console.log(url);
 
-    /*
-    let host = location.host;
-    console.log('host');
-    */
-
      // ページ遷移の処理を中断
      e.preventDefault();
   
