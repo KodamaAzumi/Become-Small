@@ -23,6 +23,6 @@
     "storage"
   ],
   "content_security_policy": {
-    "extension_pages": "default-src'self' https://www.googletagmanager.com/gtag/js?id=G-HQ91FT3VT4;"
+    "extension_pages": "script-src'self' https://www.googletagmanager.com/gtag/js?id=G-HQ91FT3VT4;"
   }
 }
