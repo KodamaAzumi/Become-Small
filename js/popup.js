@@ -1,6 +1,6 @@
-let clearButton = document.getElementById('clearButton')
+const clearButton = document.getElementById('clearButton')
 
-let onClickclearButton = () => {
+const onClickclearButton = () => {
     chrome.storage.local.clear();
     chrome.tabs.reload();
     console.log('clearButtonが押されました');
