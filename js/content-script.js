@@ -6,21 +6,21 @@ let data = {};
 chrome.storage.local.get(null, (result) => {
   data = result;
   console.log(result);
-
+  
   for (const key in data){
     if(data.hasOwnProperty(key)){
-      console.log(key);
-      const keyElm = document.querySelector('a[href="' +  key + '" ]')
-      console.log(keyElm);
-      if(keyElm) {;
-        keyElm.style.transform = 'scale(' + Math.max(0 ,1/((data[key].count)*0.2+1)) + ')';
-        keyElm.style.display = 'inline-block';
-        if(data[key].count > 7) {
-          q.style.visibility = 'hidden';
-        }
-      } 
+      //console.log(key);
+      const keyElms = document.querySelectorAll('a[href="' +  key + '" ]')
+      //console.log(keyElms);
+      keyElms.forEach((keyElm) => {
+        if(keyElm) {
+          keyElm.style.display = 'inline-block';
+          keyElm.style.transform = `scale(${data[key].size})`;
+        } 
+      });
     }
   }
+  
 });
 
 const ancherElementList = document.querySelectorAll('a:not([href=""]');
@@ -42,9 +42,11 @@ ancherElementList.forEach((ancherElement) => {
     // もしdataの中にurlが無かったらクリックしたサイトのurlを追加
     if(data.hasOwnProperty(url)){
       data[url].count += 1;
+      data[url].size = Math.max(0 ,1/((data[url].count)*0.2 + 1));
     } else {
       data[url] = {};
       data[url].count = 1;
+      data[url].size = Math.max(0 ,1/((data[url].count)*0.2 + 1));
     }
 
     console.log(data);
