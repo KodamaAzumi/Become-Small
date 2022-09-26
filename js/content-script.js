@@ -6,21 +6,23 @@ let data = {};
 chrome.storage.local.get(null, (result) => {
   data = result;
   console.log(result);
-  
-  for (const key in data){
-    if(data.hasOwnProperty(key)){
+  for (const key in data) {
+    if (data.hasOwnProperty(key) && window.location.href === key) {
       //console.log(key);
-      const keyElms = document.querySelectorAll('a[href="' +  key + '" ]')
-      //console.log(keyElms);
-      keyElms.forEach((keyElm) => {
-        if(keyElm) {
-          keyElm.style.display = 'inline-block';
-          keyElm.style.transform = `scale(${data[key].size})`;
-        } 
-      });
+      for (const item in data[key]){
+        if (data[key].hasOwnProperty(item)) {
+          const keyElms = document.querySelectorAll(data[key][item].selector);
+          //console.log(keyElms);
+          keyElms.forEach((keyElm) => {
+            if (keyElm) {
+              keyElm.style.display = 'inline-block';
+              keyElm.style.transform = `scale(${data[key][item].size})`;
+            } 
+          });
+        }
+      }
     }
   }
-  
 });
 
 const ancherElementList = document.querySelectorAll('a:not([href=""]');
@@ -29,34 +31,64 @@ ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
     
     const { currentTarget } = e;
-    console.log(currentTarget.outerHTML);
+    //console.log(currentTarget.outerHTML);
     console.log(currentTarget);
+    console.log(e);
 
     // clickしたサイトのURLを取得
     const url = currentTarget.href;
     console.log(url);
+    // 現在のページのurl
+    const currentUrl = window.location.href;
+    console.log(window.location.href);
 
      // ページ遷移の処理を中断
      e.preventDefault();
+
+     // クリックされた要素のすべての属性から属性セレクターを作る
+     // CSS セレクターのベース
+     let selector = 'a';
+     const { attributes } = e.currentTarget;
+     for (let i = 0; i < attributes.length; i++) {
+      // 属性の数だけ属性を取り出す
+      const attribute = attributes.item(i);
+
+      if (/^(?!data|ping)/i.test(attribute.name)) {
+        // data 属性か ping 属性以外であれば CSS セレクターに結合する
+        selector += `[${attribute.name}="${attribute.value}"]`;
+      }
+     }
   
-    // もしdataの中にurlが無かったらクリックしたサイトのurlを追加
-    if(data.hasOwnProperty(url)){
-      data[url].count += 1;
-      data[url].size = Math.max(0 ,1/((data[url].count)*0.2 + 1));
+    // もしdataの中にcurrentUrlが無かったらdataの中にcurrentUrlを追加
+    if (data.hasOwnProperty(currentUrl)) {
+      if (data[currentUrl].hasOwnProperty(url)) {
+        data[currentUrl][url].count += 1;
+        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
+      } else {
+        data[currentUrl][url] = {
+          count: 1,
+          selector,
+        };
+        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
+      } 
     } else {
-      data[url] = {};
-      data[url].count = 1;
-      data[url].size = Math.max(0 ,1/((data[url].count)*0.2 + 1));
+      data[currentUrl] = {
+        [url]: {
+          count: 1,
+          selector,
+        }
+      };
+      data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
     }
 
-    console.log(data);
+    //console.log(data);
 
     chrome.storage.local.set(data, () => {
       console.log('Value is set to ' , data);
     });
 
     // ページ遷移の処理
-    if(url.indexOf('http') === 0){
+    if (url.indexOf('http') === 0) {
       window.location.href = currentTarget;
     }
   });
@@ -67,3 +99,5 @@ window.onpageshow = (event) => {
 		 window.location.reload();
 	}
 };
+
+
