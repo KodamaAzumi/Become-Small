@@ -25,7 +25,7 @@ chrome.storage.local.get(null, (result) => {
   }
 });
 
-const ancherElementList = document.querySelectorAll('a:not([href=""]');
+const ancherElementList = document.querySelectorAll('a:not([href=""])');
 
 ancherElementList.forEach((ancherElement) => {
   ancherElement.addEventListener('click', (e) => {
@@ -63,13 +63,13 @@ ancherElementList.forEach((ancherElement) => {
     if (data.hasOwnProperty(currentUrl)) {
       if (data[currentUrl].hasOwnProperty(url)) {
         data[currentUrl][url].count += 1;
-        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
+        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.1 + 1));
       } else {
         data[currentUrl][url] = {
           count: 1,
           selector,
         };
-        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
+        data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.1 + 1));
       } 
     } else {
       data[currentUrl] = {
@@ -78,7 +78,7 @@ ancherElementList.forEach((ancherElement) => {
           selector,
         }
       };
-      data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.2 + 1));
+      data[currentUrl][url].size = Math.max(0 ,1/((data[currentUrl][url].count)*0.1 + 1));
     }
 
     //console.log(data);
