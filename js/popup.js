@@ -1,3 +1,10 @@
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 // 現在のページにあるリンクの大きさを全てリセットする
 const pageClearButton = document.getElementById('pageClearButton')
 
@@ -7,6 +14,9 @@ const onClickpageClearButton = () => {
     const result = confirm('現在のページにあるリンクの大きさを全てリセットしますか');
     if (result) {
         console.log('OKが押されました');
+        // リセットボタンが押された回数を計測する
+        const img = new Image(0, 0);
+        img.src = `https://nanalytics.ga/no-cache/kodama/becomesmall/click-event-1.png?r=${uuidv4()}`;
 
         let getCurrentTab = async () => {
             let queryOptions = { active: true, lastFocusedWindow: true };
@@ -41,6 +51,10 @@ const onClickclearButton = () => {
     const result = confirm('全てのリンクの大きさをリセットしますか');
     if (result) {
         console.log('OKが押されました');
+        // リセットボタンが押された回数を計測する
+        const img = new Image(0, 0);
+        img.src = `https://nanalytics.ga/no-cache/kodama/becomesmall/click-event-0.png?r=${uuidv4()}`;
+
         chrome.storage.local.clear();
         chrome.tabs.reload();
     } else {
