@@ -6,7 +6,7 @@
      "css": ["css/style.css"]
    }
  ],
-  "name": "押したものが小さくなる拡張機能",
+  "name": "prototype-押したものが小さくなる拡張機能",
   "description" : "押したボタンやロゴが押すたびに小さくなります。ポップアップから大きさをリセットすることができます。",
   "version": "1.2.0",
   "manifest_version": 3,
