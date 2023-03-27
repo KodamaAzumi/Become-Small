@@ -1,4 +1,4 @@
 # Kajima-Studio-2022
 Kajima Studio 2022年制作
-押すたびに小さくなるGoogle Chrome拡張機能
-押したボタンやロゴなどが押すたびに小さくなり、7回以上押すと画面上から消えます。ポップアップから大きさを全てリセットすることができます。
+押したものが小さくなる拡張機能
+https://github.com/Ogura2020/Ogfolio.git
